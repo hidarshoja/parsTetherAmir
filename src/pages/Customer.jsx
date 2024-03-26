@@ -9,13 +9,31 @@ import { useNavigate, useLocation } from "react-router-dom";
 // import { errorMessage, successMessage } from "../utils/Toastiy";
 // import { ToastContainer } from "react-toastify";
 
+const tabs = ["آبان", "تبدیل", "باسلام", "نوتتیبکس"];
+
 export default function Customer() {
   const [inputValuePrice, setInputValuePrice] = useState("");
+  const [inputValuePrice2, setInputValuePrice2] = useState("");
   const [value2, setValue2] = useState(null);
   const [formAssets, setFormAssets] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const person = location.state;
+  const [currentTab, setCurrentTab] = useState(tabs[0]);
+  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedValue2, setSelectedValue2] = useState("");
+
+  const handleChangeAban = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+  const handleChangeAban2 = (event) => {
+    setSelectedValue2(event.target.value);
+  };
+
+  const changeTab = (tabName) => {
+    setCurrentTab(tabName);
+  };
 
   function formatNumber(input) {
     const number = input.replace(/\D/g, "");
@@ -27,6 +45,9 @@ export default function Customer() {
     setInputValuePrice(formatNumber(event.target.value));
   }
 
+  function handleChange2(event) {
+    setInputValuePrice2(formatNumber(event.target.value));
+  }
   const [checkboxes, setCheckboxes] = useState({
     ریال: false,
     تتر: false,
@@ -170,7 +191,7 @@ export default function Customer() {
             </div>
             <div className="mb-4 w-full md:w-1/3">
               <label
-                className="block text-gray-100 text-sm font-bold mb-2"
+                className="block text-gray-100 text-sm font-semibold mb-2"
                 htmlFor="customer"
               >
                 تکرار رمز عبور
@@ -183,13 +204,13 @@ export default function Customer() {
               />
             </div>
           </div>
-          <h2 className="block text-gray-100 text-lg font-bold mb-2 py-4 ">
+          <h2 className="block text-gray-100 text-lg font-semibold mb-2 py-4 ">
             اعتبار کاربر
           </h2>
           <div className="flex flex-col gap-2 lg:flex-row items-center justify-between">
             <div className="mb-4 w-full lg:w-1/5">
               <label
-                className="block text-gray-100 text-sm font-bold mb-2"
+                className="block text-gray-100 text-sm font-semibold mb-2"
                 htmlFor="Rial"
               >
                 اعتبار ریالی
@@ -205,7 +226,7 @@ export default function Customer() {
             </div>
             <div className="mb-4 w-full lg:w-1/5">
               <label
-                className="block text-gray-100 text-sm font-bold mb-2"
+                className="block text-gray-100 text-sm font-semibold mb-2"
                 htmlFor="lastName"
               >
                 اعتبار تتر
@@ -220,7 +241,7 @@ export default function Customer() {
             </div>
             <div className="mb-4 w-full lg:w-1/5">
               <label
-                className="block text-gray-100 text-sm font-bold mb-2"
+                className="block text-gray-100 text-sm font-semibold mb-2"
                 htmlFor="Mobile"
               >
                 اعتبار BTC
@@ -235,7 +256,7 @@ export default function Customer() {
             </div>
             <div className="mb-4 w-full lg:w-1/5">
               <label
-                className="block text-gray-100 text-sm font-bold mb-2"
+                className="block text-gray-100 text-sm font-semibold mb-2"
                 htmlFor="Mobile"
               >
                 اعتبار ETH
@@ -250,7 +271,7 @@ export default function Customer() {
             </div>
             <div className="mb-4 w-full lg:w-1/5">
               <label
-                className="block text-gray-100 text-sm font-bold mb-2"
+                className="block text-gray-100 text-sm font-semibold mb-2"
                 htmlFor="Mobile"
               >
                 اعتبار SOL
@@ -265,7 +286,7 @@ export default function Customer() {
             </div>
           </div>
           <div>
-            <h2 className="block text-gray-100 text-lg font-bold mb-2 py-4 mt-8">
+            <h2 className="block text-gray-100 text-lg font-semibold mb-2 py-4 mt-8">
               رمز ارزها فعال
             </h2>
             <div className="flex items-center justify-start flex-wrap gap-x-16 gap-y-5 text-white">
@@ -310,8 +331,8 @@ export default function Customer() {
               <input type="checkbox" id="notification" name="notification" />
             </div>
           </div>
-          <h2 className="block text-gray-100 text-lg font-bold mb-2 py-4 mt-5">
-             کارمزدها (به درصد)
+          <h2 className="block text-gray-100 text-lg font-semibold mb-2 py-4 mt-5">
+            کارمزدها (به درصد)
           </h2>
           <div className="flex flex-col gap-2 md:flex-row items-center justify-between">
             <div className="mb-4 w-full md:w-1/4">
@@ -333,13 +354,13 @@ export default function Customer() {
                 className="block text-gray-100 text-sm font-bold mb-2"
                 htmlFor="sell"
               >
-                 فروش
+                فروش
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="sell"
                 type="text"
-               dir="ltr"
+                dir="ltr"
               />
             </div>
             <div className="mb-4 w-full md:w-1/4">
@@ -347,7 +368,7 @@ export default function Customer() {
                 className="block text-gray-100 text-sm font-bold mb-2"
                 htmlFor="deposit"
               >
-                 واریز
+                واریز
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -361,7 +382,7 @@ export default function Customer() {
                 className="block text-gray-100 text-sm font-bold mb-2"
                 htmlFor="harvest"
               >
-                 برداشت
+                برداشت
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -369,6 +390,302 @@ export default function Customer() {
                 type="text"
                 dir="ltr"
               />
+            </div>
+          </div>
+          <h2 className="block text-gray-100 text-lg font-semibold mb-2 py-4 mt-5">
+            بالانس
+          </h2>
+          <div>
+            <div className="flex">
+              {tabs.map((tabName) => (
+                <div
+                  key={tabName}
+                  className={`p-3 m-1 bg-green-900 text-color3 cursor-pointer rounded-md ${
+                    currentTab === tabName ? "bg-green-400" : ""
+                  }`}
+                  onClick={() => changeTab(tabName)}
+                >
+                  {tabName}
+                </div>
+              ))}
+            </div>
+            <div className="mt-6">
+              {currentTab === "آبان" && (
+                <div className="w-full">
+                  <h2 className="block text-gray-100 text-base font-semibold mb-2 py-4 mt-5">
+                    اعمال تغییرات برای آبان
+                  </h2>
+                  <div className="flex flex-col lg:flex-row gap-2">
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        نوع ارز
+                      </p>
+                      <select
+                        value={selectedValue}
+                        onChange={handleChangeAban}
+                        className="w-full px-2 py-1 rounded-lg"
+                      >
+                        <option value="1">ریال</option>
+                        <option value="2">تتر</option>
+                        <option value="3">btc</option>
+                        <option value="4">eth</option>
+                        <option value="5">sol</option>
+                        <option value="6">dai</option>
+                        <option value="7">gold</option>
+                      </select>
+                    </div>
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        نوع سند
+                      </p>
+                      <select
+                        value={selectedValue2}
+                        onChange={handleChangeAban2}
+                        className="w-full px-2 py-1 rounded-lg"
+                      >
+                        <option value="1">برداشت</option>
+                        <option value="2">خرید</option>
+                        <option value="3">فروش</option>
+                        <option value="4">واریز</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex flex-col lg:flex-row gap-2">
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        کد رهگیری
+                      </p>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="code"
+                        type="text"
+                        dir="ltr"
+                      />
+                    </div>
+
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        مبلغ
+                      </p>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="price"
+                        type="text"
+                        dir="ltr"
+                        value={inputValuePrice2}
+                        onChange={handleChange2}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {currentTab === "تبدیل" && (
+                <div className="w-full">
+                  <h2 className="block text-gray-100 text-base font-semibold mb-2 py-4 mt-5">
+                    اعمال تغییرات برای تبدیل
+                  </h2>
+                  <div className="flex flex-col lg:flex-row gap-2">
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        نوع ارز
+                      </p>
+                      <select
+                        value={selectedValue}
+                        onChange={handleChangeAban}
+                        className="w-full px-2 py-1 rounded-lg"
+                      >
+                        <option value="1">ریال</option>
+                        <option value="2">تتر</option>
+                        <option value="3">btc</option>
+                        <option value="4">eth</option>
+                        <option value="5">sol</option>
+                        <option value="6">dai</option>
+                        <option value="7">gold</option>
+                      </select>
+                    </div>
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        نوع سند
+                      </p>
+                      <select
+                        value={selectedValue2}
+                        onChange={handleChangeAban2}
+                        className="w-full px-2 py-1 rounded-lg"
+                      >
+                        <option value="1">برداشت</option>
+                        <option value="2">خرید</option>
+                        <option value="3">فروش</option>
+                        <option value="4">واریز</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex flex-col lg:flex-row gap-2">
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        کد رهگیری
+                      </p>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="code"
+                        type="text"
+                        dir="ltr"
+                      />
+                    </div>
+
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        مبلغ
+                      </p>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="price"
+                        type="text"
+                        dir="ltr"
+                        value={inputValuePrice2}
+                        onChange={handleChange2}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {currentTab === "باسلام" && (
+                <div className="w-full">
+                  <h2 className="block text-gray-100 text-base font-semibold mb-2 py-4 mt-5">
+                    اعمال تغییرات برای باسلام
+                  </h2>
+                  <div className="flex flex-col lg:flex-row gap-2">
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        نوع ارز
+                      </p>
+                      <select
+                        value={selectedValue}
+                        onChange={handleChangeAban}
+                        className="w-full px-2 py-1 rounded-lg"
+                      >
+                        <option value="1">ریال</option>
+                        <option value="2">تتر</option>
+                        <option value="3">btc</option>
+                        <option value="4">eth</option>
+                        <option value="5">sol</option>
+                        <option value="6">dai</option>
+                        <option value="7">gold</option>
+                      </select>
+                    </div>
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        نوع سند
+                      </p>
+                      <select
+                        value={selectedValue2}
+                        onChange={handleChangeAban2}
+                        className="w-full px-2 py-1 rounded-lg"
+                      >
+                        <option value="1">برداشت</option>
+                        <option value="2">خرید</option>
+                        <option value="3">فروش</option>
+                        <option value="4">واریز</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex flex-col lg:flex-row gap-2">
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        کد رهگیری
+                      </p>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="code"
+                        type="text"
+                        dir="ltr"
+                      />
+                    </div>
+
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        مبلغ
+                      </p>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="price"
+                        type="text"
+                        dir="ltr"
+                        value={inputValuePrice2}
+                        onChange={handleChange2}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {currentTab === "نوتتیبکس" && (
+                <div className="w-full ">
+                  <h2 className="block text-gray-100 text-base font-semibold mb-2 py-4 mt-5">
+                    اعمال تغییرات برای نوتتیبکس
+                  </h2>
+                  <div className="flex flex-col lg:flex-row gap-2">
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        نوع ارز
+                      </p>
+                      <select
+                        value={selectedValue}
+                        onChange={handleChangeAban}
+                        className="w-full px-2 py-1 rounded-lg"
+                      >
+                        <option value="1">ریال</option>
+                        <option value="2">تتر</option>
+                        <option value="3">btc</option>
+                        <option value="4">eth</option>
+                        <option value="5">sol</option>
+                        <option value="6">dai</option>
+                        <option value="7">gold</option>
+                      </select>
+                    </div>
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        نوع سند
+                      </p>
+                      <select
+                        value={selectedValue2}
+                        onChange={handleChangeAban2}
+                        className="w-full px-2 py-1 rounded-lg"
+                      >
+                        <option value="1">برداشت</option>
+                        <option value="2">خرید</option>
+                        <option value="3">فروش</option>
+                        <option value="4">واریز</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex flex-col lg:flex-row gap-2">
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        کد رهگیری
+                      </p>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="code"
+                        type="text"
+                        dir="ltr"
+                      />
+                    </div>
+
+                    <div className="w-full lg:w-1/2">
+                      <p className="py-2 text-color3 font-semibold text-sm">
+                        مبلغ
+                      </p>
+                      <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="price"
+                        type="text"
+                        dir="ltr"
+                        value={inputValuePrice2}
+                        onChange={handleChange2}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           <div>
@@ -379,9 +696,9 @@ export default function Customer() {
               <button
                 type="button"
                 onClick={handleClick}
-                className="flex items-center justify-center w-full bg-green-500 rounded-lg py-1 text-color3  hover:bg-green-700"
+                className="flex items-center justify-center w-1/2 bg-green-500 rounded-lg py-1 text-color3  hover:bg-green-700"
               >
-                ثبت
+                ذخیره
               </button>
             </div>
           </div>
