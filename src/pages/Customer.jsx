@@ -19,22 +19,22 @@ export default function Customer() {
   const navigate = useNavigate();
   const location = useLocation();
   const person = location.state;
-  const [currentTab, setCurrentTab] = useState(tabs[0]);
-  const [selectedValue, setSelectedValue] = useState("");
-  const [selectedValue2, setSelectedValue2] = useState("");
+  // const [currentTab, setCurrentTab] = useState(tabs[0]);
+  // const [selectedValue, setSelectedValue] = useState("");
+  // const [selectedValue2, setSelectedValue2] = useState("");
 
-  const handleChangeAban = (event) => {
-    setSelectedValue(event.target.value);
-  };
+  // const handleChangeAban = (event) => {
+  //   setSelectedValue(event.target.value);
+  // };
 
-  const handleChangeAban2 = (event) => {
-    setSelectedValue2(event.target.value);
-  };
+  // const handleChangeAban2 = (event) => {
+  //   setSelectedValue2(event.target.value);
+  // };
 
-  const changeTab = (tabName) => {
-    console.log(tabName);
-    setCurrentTab(tabName);
-  };
+  // const changeTab = (tabName) => {
+  //   console.log(tabName);
+  //   setCurrentTab(tabName);
+  // };
 
   function formatNumber(input) {
     const number = input.replace(/\D/g, "");
