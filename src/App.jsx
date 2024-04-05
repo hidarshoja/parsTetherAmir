@@ -25,33 +25,20 @@ import Ticket from "./pages/SellGold";
 import Report from "./pages/Report";
 import ReceiveGold from "./pages/ReceiveGold";
 import Profile from "./pages/Profile";
-import Chat from "./pages/Chat";
+
 import Login from "./pages/login/page";
 import Customer from "./pages/Customer";
+import BalancePage from "./pages/Balance";
 
 const navigation = [
   { name: "پیشخوان", href: "/", icon: HomeIcon, current: false },
   { name: "تعریف مشتری", href: "/Customer", icon: HomeIcon, current: false },
-  { name: "موجودی ", href: "/harvest", icon: CreditCardIcon, current: false },
-  {
-    name: "قیمت",
-    href: "/buyGold",
-    icon: MdPriceChange,
-    current: false,
-  },
-
+  { name: "عملیات بانکی ", href: "/harvest", icon: CreditCardIcon, current: false },
+  { name: "بالانس ", href: "/balance", icon: CreditCardIcon, current: false },
+  { name: "حد اعتباری",href: "/creditLimit", icon: MdPriceChange,current: false,},
+  { name: "صورتحساب", href: "/bill", icon: CiUser, current: false },
   { name: "پرفایل", href: "/profile", icon: CiUser, current: false },
-  {
-    name: "حسابداری ",
-    // href: "/ticket",
-    icon: ScaleIcon,
-    current: false,
-    children: [
-      { name: "واریز", href: "/buyGold" },
-      { name: "برداشت", href: "/harvest" },
-      { name: "افزودن کارت", href: "/dedposit" },
-    ],
-  },
+  
 ];
 
 // اتمام صفحات دقالت
@@ -69,7 +56,7 @@ import "./App.css";
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  //const currentPath = window.location.pathname;
+
 
   return (
     <>
@@ -406,16 +393,17 @@ function App() {
               <div>
                 <Routes>
                   <Route path="/" element={<Dashboard />} />
-                  <Route path="/deposit" element={<Deposit />} />
+                  <Route path="/bill" element={<Deposit />} />
                   <Route path="/harvest" element={<Harvest />} />
-                  <Route path="/buyGold" element={<BuyGold />} />
-                  <Route path="/ticket" element={<Ticket />} />
+                  <Route path="/ticket" element={<BuyGold />} />
+                  <Route path="/creditLimit" element={<Ticket />} />
                   <Route path="/report" element={<Report />} />
                   <Route path="/receive-gold" element={<ReceiveGold />} />
                   <Route path="/profile" element={<Profile />} />
-                  <Route path="/ticket/chat" element={<Chat />} />
+              
                   <Route path="/login" element={<Login />} />
                   <Route path="/Customer" element={<Customer />} />
+                  <Route path="/balance" element={<BalancePage />} />
                 </Routes>
               </div>
             </main>

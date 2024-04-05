@@ -1,387 +1,395 @@
-import React, { useState, useEffect } from "react";
-import { MdOutlinePriceChange } from "react-icons/md";
-import { FiAlertOctagon, FiAlertTriangle } from "react-icons/fi";
-import { CiCreditCard1 } from "react-icons/ci";
-import axios from "axios";
+import  { useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
+
+ import UserBox from '../components/UserBox'
+ const people = [
+  {
+    id: 211,
+    time : "14:23",
+    name: "علی شجاع",
+    data: "1402/10/12",
+    currency :"تتر",
+    type : "خرید",
+    price : 100000,
+    code : 12094,
+    Wage :10000,
+    status :"انجام شده"
+    
+  },
+  {
+    id: 209,
+    time : "14:23",
+    name: " هانیه جعفری",
+    data: "1402/10/12",
+    currency :"تتر",
+    type : "فروش",
+    price : 100000,
+    code : 12094,
+    Wage :10000,
+    status :"در صف"
+    
+  },
+  {
+    id: 212,
+    time : "14:23",
+    name: "سحر حسینی",
+    data: "1402/10/12",
+    currency :"تتر",
+    type : "خرید",
+    price : 100000,
+    code : 12094,
+    Wage :10000,
+    status :"انجام شده"
+    
+  },
+  {
+    id: 213,
+    time : "14:23",
+    name: "فاطمه جعفری",
+    data: "1402/10/18",
+    currency :"تتر",
+    type : "خرید",
+    price : 100000,
+    code : 12094,
+    Wage :10000,
+    status :"انجام شده"
+    
+  },
+  {
+    id: 214,
+    time : "14:23",
+    name: "محمد رسولی",
+    data: "1402/10/12",
+    currency :"تتر",
+    type : "خرید",
+    price : 100000,
+    code : 12094,
+    Wage :10000,
+    status :"انجام شده"
+    
+  },
+  {
+    id: 215,
+    time : "14:23",
+    name: "امیر حسینی",
+    data: "1402/10/22",
+    currency :"تتر",
+    type : "خرید",
+    price : 100000,
+    code : 12094,
+    Wage :10000,
+    status :"انجام شده"
+    
+  },
+  {
+    id: 612,
+    time : "14:23",
+    name: "نیما شاهرخی",
+    data: "1402/10/11",
+    currency :"تتر",
+    type : "خرید",
+    price : 100000,
+    code : 12094,
+    Wage :10000,
+    status :"انجام شده"
+   
+  },
+  {
+    id: 347,
+    time : "14:23",
+    name: "نگار جواهریان",
+    data: "1402/10/10",
+    currency :"تتر",
+    type : "خرید",
+    price : 100000,
+    code : 12094,
+    Wage :10000,
+    status :"انجام شده"
+    
+  },
+  {
+    id: 348,
+    time : "14:23",
+    name: "مبینا احمدی",
+    data: "1402/10/02",
+    currency :"تتر",
+    type : "خرید",
+    price : 100000,
+    code : 12094,
+    Wage :10000,
+    status :"انجام شده"
+    
+
+  },
+];
 
 export default function Deposit() {
-  const [inputValue, setInputValue] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [accountNumber, setAccountNumber] = useState("");
-  const [formattedAccountNumber, setFormattedAccountNumber] = useState("");
-  const [bankName, setBankName] = useState("");
-  const [cardInfo, setCardInfo] = useState([]);
-  const [state, setState] = useState(true);
 
-  const bankNumbers = {
-    "6037-99": { name: "بانک ملی ایران", icon: "/img/melei.jpg" },
-    "6063-73": { name: "بانک قرض الحسنه مهر", icon: "/img/gharz.png" },
-    "6037-70": { name: "بانک کشاورزی", icon: "/img/keshavarzi.jpg" },
-    "6037-69": { name: "بانک صادرات", icon: "/img/saderat.png" },
-    "6273-53": { name: "بانک تجارت", icon: "/img/tejarat.jpg" },
-    "6104-33": { name: "بانک ملت", icon: "/img/melat.png" },
-    "5894-63": { name: "بانک رفاه", icon: "/img/refa.png" },
-    "6280-23": { name: "بانک مسکن", icon: "/img/maskan.png" },
-    "5892-10": { name: "بانک سپه", icon: "/img/sepae.png" },
-    "6277-60": { name: "پست بانک", icon: "/img/post.jpg" },
-    "5054-16": { name: "باگردشگری", icon: "/img/gardeshgari.jpg" },
-    "6274-88": { name: "بانک کارآفرین", icon: "/img/kar.png" },
-
-    "6393-47": { name: "بانک اقتصاد نوین", icon: "/img/kar.png" },
-    // دیگر شماره‌ها و نام‌های بانک مورد نظر را اضافه کنید
-  };
-
-  useEffect(() => {
-    // ارسال اطلاعات به بک‌اند به‌طور خودکار هربار که cardInfo تغییر می‌کند
-    if (cardInfo.length > 0) {
-      axios
-        .post("https://jsonplaceholder.typicode.com/posts", cardInfo)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error("Error sending data:", error);
-        });
-    }
-  }, [cardInfo]);
-
-  const checkBankName = (inputValue) => {
-    const firstSixDigits = inputValue.substring(0, 7);
-    const bank = bankNumbers[firstSixDigits]
-      ? bankNumbers[firstSixDigits].name
-      : null;
-
-    if (bank) {
-      setBankName(bank);
-    } else {
-      setBankName("");
-    }
-  };
-
-  const formatCardNumber = (inputValue) => {
-    // حذف همه اعداد غیر از اعداد (از 0 تا 9)
-    let formatted = inputValue.replace(/\D/g, "");
-
-    // اعمال قالب‌بندی 4 رقم 4 رقم با خط فاصله
-    formatted = formatted.replace(/(\d{4})(?=\d)/g, "$1-");
-
-    return formatted;
-  };
-
-  const handleInputChange = (event) => {
-    const inputValue = event.target.value;
-    const formattedValue = formatCardNumber(inputValue);
-    setAccountNumber(formattedValue);
-    setFormattedAccountNumber(formattedValue);
-    if (inputValue.length >= 6) {
-      checkBankName(formattedValue);
-    } else {
-      setBankName("");
-    }
-  };
-
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleAddValue = (value) => {
-    setInputValue((prevValue) => prevValue + value);
-  };
-
-  const handleDeposit = () => {
-    axios
-      .post("https://jsonplaceholder.typicode.com/posts", {
-        deposit: inputValue,
-      })
-      .then((response) => {
-        alert("شما به درگاه بانک رفته‌اید!");
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error sending data:", error);
-      });
-  };
-
-  const handleSaveAndSend = () => {
-    if (formattedAccountNumber && bankName) {
-      const firstSixDigits = formattedAccountNumber.substring(0, 7);
-
-      if (bankNumbers[firstSixDigits]) {
-        const newCardInfo = {
-          accountNumber: formattedAccountNumber,
-          bankName: bankName,
-          icon: bankNumbers[firstSixDigits].icon,
-        };
-
-        // اضافه کردن مقدار جدید به آرایه cardInfo
-        cardInfo.push(newCardInfo);
-
-        axios
-          .post("https://jsonplaceholder.typicode.com/posts", cardInfo)
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((error) => {
-            console.error("Error sending data:", error);
-          });
-      } else {
-        alert("بانک متناظر با شماره کارت یافت نشد.");
-      }
-    } else {
-      alert("لطفاً اطلاعات کامل را وارد کنید.");
-    }
-    setShowModal(false);
-  };
+ 
 
   return (
-    <div className="w-full">
-      <div className="w-[95%] md:w-[60%] mx-auto">
-        <h2 className="text-color2 text-3xl font-semibold">واریز وجه</h2>
-        <div className="w-full min-h-[500px] mt-5 rounded-lg bg-color1 p-6 flex flex-col gap-2   shadow-md shadow-color1">
-          <div className="flex items-center justify-between text-color3 text-xl font-serif">
-            <h3>مبلغ خود را وارد کنید :</h3>
-            <span className="text-3xl">
-              <MdOutlinePriceChange />
-            </span>
-          </div>
-          <div>
-            <div className="relative mt-5 rounded-md shadow-sm">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <span className="text-gray-500 sm:text-sm">تومان</span>
-              </div>
-              <input
-                type="text"
-                dir="ltr"
-                name="price"
-                id="price"
-                value={inputValue}
-                readOnly
-                className="block w-full rounded-md border-0 py-3 pl-16  text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                placeholder="000"
-                aria-describedby="price-currency"
-              />
-            </div>
-            <div>
-              <div className="flex gap-3 mt-5">
-                <button
-                  className="w-full h-12 bg-gray-900 text-color2 rounded-lg border-2 border-color2"
-                  onClick={() => handleAddValue(100000)}
-                >
-                  + {new Intl.NumberFormat("fa-IR").format(100000)} تومان
-                </button>
-                <button
-                  onClick={() => handleAddValue(500000)}
-                  className="w-full h-12 bg-gray-900 text-color2 rounded-lg border-2 border-color2"
-                >
-                  + {new Intl.NumberFormat("fa-IR").format(500000)} تومان
-                </button>
-              </div>
-              <div className="flex gap-3 mt-5">
-                <button
-                  onClick={() => handleAddValue(1000000)}
-                  className="w-full h-12 bg-gray-900 text-color2 rounded-lg border-2 border-color2"
-                >
-                  + {new Intl.NumberFormat("fa-IR").format(1000000)} تومان
-                </button>
-                <button
-                  onClick={() => handleAddValue(5000000)}
-                  className="w-full h-12 bg-gray-900 text-color2 rounded-lg border-2 border-color2"
-                >
-                  + {new Intl.NumberFormat("fa-IR").format(5000000)} تومان
-                </button>
-              </div>
-              <div className="mt-5 flex flex-col gap-3">
-                <p className="flex gap-2 items-center">
-                  <span className="text-red-600">
-                    <FiAlertOctagon />
-                  </span>
-                  <span className="text-color3">
-                    کف پرداختی بایستی حداقل معادل یک گرم طلا باشد .
-                  </span>
-                </p>
-                <p className="flex gap-2 items-center">
-                  <span className="text-yellow-500">
-                    <FiAlertTriangle />
-                  </span>
-                  <span className="text-color3">
-                    واریز باید از شماره کارت خودتان که در سامانه ثبت شده است
-                    باشد .
-                  </span>
-                </p>
-                <p className="flex gap-2 items-center">
-                  <span className="text-yellow-500">
-                    <FiAlertTriangle />
-                  </span>
-                  <span className="text-color3">
-                    شماره تماس یا ایمیل خود را در محل پرداخت وارد نماید .
-                  </span>
-                </p>
-              </div>
-              <div className="w-full h-auto mt-5">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-color3 text-base">کارت های من :</p>
-                  </div>
+    <div className="w-[95%] md:w-[80%] mx-auto">
+      <div className="flex items-center justify-between">
+        <h1 className="block text-gray-700 text-lg font-bold mb-2 py-4 ">
+          صورتحساب
+        </h1>
 
-                  <div>
-                    <p
-                      onClick={handleShowModal}
-                      className="flex items-center gap-2 text-color2 cursor-pointer"
-                    >
-                      <span className="text-sm">افزودن کارت</span>
-                      <span>
-                        <CiCreditCard1 size={36} />
-                      </span>
-                    </p>
-                  </div>
-                </div>
+        <CSVLink data={people} className="bg-green-500 px-5 py-2 text-white rounded-lg text-sm cursor-pointer">
+            خروجی اکسل
+        </CSVLink>
+      </div>
+      <div className="flex flex-col md:flex-row items-center gap-1 p-1 border border-1 border-gray-400 rounded-lg">
+        <div className="w-full md:w-1/2 flex gap-1">
+      
 
-                {state && cardInfo.length > 0 && (
-                  <div>
-                    {cardInfo.map((item, index) => (
-                      <div key={index} className="mt-5">
-                        <div className="flex items-center justify-between py-1 px-3 rounded-full bg-white">
-                          <div className="flex gap-2 items-center justify-center">
-                            <img
-                              src={item.icon}
-                              alt={item.bankName}
-                              width="50px"
-                              height="50px"
-                              className="rounded-full"
-                            />
-                            <p className="text-color1">{item.bankName}</p>
-                          </div>
-                          <div>
-                            <p className="text-color1">{item.accountNumber}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+          <UserBox  people={people}/>
 
-                {cardInfo.length === 0 && (
-                  <p className="text-red-600 text-center">
-                    کارتی در سامانه ثبت نشده است.
-                  </p>
-                )}
-              </div>
-              <div className="mt-5">
-                <button
-                  onClick={handleDeposit}
-                  className="w-full h-12  text-color3 rounded-lg bg-green-500 hover:bg-green-700"
-                >
-                  واریز وجه
-                </button>
-              </div>
-            </div>
-          </div>
+         
+          <select
+            name="nameWallet"
+            id="nameWallet"
+            className="px-3 py-1.5 border border-gray-300 rounded w-1/3"
+            
+          >
+            <option value="کیف پول ریالی POS">pos</option>
+            <option value="4">چک</option>
+            <option value="5">vip </option>
+            <option value="2"> اینترنتی</option>
+            <option value="3">حساب </option>
+            <option value="6"> کارت</option>
+          </select>
+        </div>
+        <div className="w-full md:w-1/2 flex gap-1">
+          <select
+            name="transaction"
+            id="transaction"
+            className="px-3 py-1.5 border border-gray-300 rounded w-1/3"
+           
+          >
+            <option value="1">واریزی</option>
+            <option value="-1">برداشت</option>
+            <option value="-1">تبدیل</option>
+            <option value="0">همه</option>
+          </select>
+        
+          <button
+           
+            className="px-1 py-2 bg-green-500 text-white rounded hover:bg-green-600 w-1/3"
+          >
+            جستجو کردن
+          </button>
+          <button
+            
+            className="px-1 py-2 bg-red-500 text-white rounded hover:bg-red-600 w-1/3"
+          >
+            پاک کردن فیلتر
+          </button>
+          <button
+           
+           className="px-1 py-2 bg-green-500 text-sm text-white rounded hover:bg-green-600 w-1/3"
+         >
+            مشاهده موجودی
+         </button>
+         
         </div>
       </div>
-      {showModal && (
-        <div
-          className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50"
-          style={{
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          <div
-            className="relative w-[80%] md:w-[40%]  rounded-xl py-2 px-10 h-80 bg-white shadow-lg shadow-slate-600"
-            style={{ minHeight: "500px" }}
-          >
-            <p>
-              {
-                <span
-                  className="absolute top-3 left-3 text-2xl cursor-pointer"
-                  onClick={handleCloseModal}
-                >
-                  &times;
-                </span>
-              }
-            </p>
-            <div className="flex items-center justify-between mt-10">
-              <h2 className="text-center p-2 text-xl font-semibold text-color2">
-                افزودن کارت بانکی
-              </h2>
-            </div>
-            <div className="p-3 bg-slate-900 rounded-3xl mt-5">
-              <p className="flex gap-2 items-center">
-                <span className="text-yellow-600">
-                  <FiAlertTriangle size={20} />
-                </span>
-                <span className="text-color3">
-                  مالکیت کارت باید با نام خودتان باشد !
-                </span>
-              </p>
-            </div>
-            <div className="mt-5">
-              <label
-                htmlFor="account-number"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                شماره کارت
-              </label>
-              <div className="relative mt-2 rounded-md shadow-sm">
-                <input
-                  dir="ltr"
-                  type="text"
-                  name="account-number"
-                  id="account-number"
-                  className="block w-full rounded-md border-0 py-3 pl-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  placeholder="0000-0000-0000-0000"
-                  value={formattedAccountNumber}
-                  onChange={handleInputChange}
-                  maxLength={19}
-                />
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                  <CiCreditCard1
-                    className="h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="mt-5">
-              <label
-                htmlFor="bank-name"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                نام بانک(اختیاری)
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="bank-name"
-                  id="bank-name"
-                  className="block  w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  placeholder="نام بانک را وارد کنید "
-                  value={bankName}
-                  readOnly
-                />
-              </div>
-            </div>
-            <div className="mt-14 flex items-center justify-end gap-2">
-              <span
-                className=" text-sm py-1 px-3 bg-yellow-600 text-color3 rounded-xl cursor-pointer"
-                onClick={handleCloseModal}
-              >
-                انصراف
-              </span>
-              <span
-                onClick={handleSaveAndSend}
-                className="text-sm py-1 px-3 bg-green-600 text-color3 rounded-xl cursor-pointer"
-              >
-                ذخیره و ارسال
-              </span>
+      
+      <div className="hidden  mt-8 lg:flow-root">
+        
+        
+        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg ">
+              <table className="min-w-full  divide-y divide-gray-300">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="py-4 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6"
+                    >
+                      تاریخ
+                    </th>
+
+                    <th
+                      scope="col"
+                      className="py-4 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6"
+                    >
+                      ساعت
+                    </th>
+
+                    <th
+                      scope="col"
+                      className="px-3 py-4 text-center text-sm font-semibold text-gray-900"
+                    >
+                      نام مشتری
+                    </th>
+
+                    <th
+                      scope="col"
+                      className="px-3 py-4 text-center text-sm font-semibold text-gray-900"
+                    >
+                        نام ارز
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-4 text-center text-sm font-semibold text-gray-900"
+                    >
+                        نوع تراکنش
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-4 text-center text-sm font-semibold text-gray-900"
+                    >
+                       مبلغ
+                    </th>
+
+                    <th
+                      scope="col"
+                      className="px-3 py-4 text-center text-sm font-semibold text-gray-900"
+                    >
+                      کد رهگیری
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-4 text-center text-sm font-semibold text-gray-900"
+                    >
+                      کارمزد
+                    </th>
+                   
+                    <th
+                      scope="col"
+                      className="px-3 py-4 text-center text-sm font-semibold text-gray-900"
+                    >
+                      وضعیت
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {people.map(person => (
+                    <tr key={person.id}>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+                           {person.data}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+                        {person.time}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+                        {person.name}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+                        {person.currency}
+                      </td>
+
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+                        {person.type}
+                      </td>
+
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+                        {new Intl.NumberFormat('fa-IR').format(person.price)}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+
+                         {person.code}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+                        {new Intl.NumberFormat('fa-IR').format(person.Wage)}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+                        { person.status }
+                      </td>
+                    
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
+          
         </div>
-        // </div>
-      )}
+      </div>
+
+      <div className="flex flex-wrap gap-3 lg:hidden w-full p-2 border border-1 mt-3 border-gray-400 rounded-lg">
+      {people.map(person => (
+                    <div key={person.id} className="flex w-full items-center justify-center flex-wrap border bg-gray-800 border-1 border-gray-500 rounded-lg p-3">
+                      <div className="whitespace-nowrap border border-1 border-gray-100 m-1 shadow-sm shadow-white rounded-lg px-3 py-4 text-sm  text-gray-100  text-center">
+                           <div>
+                            تاریخ
+                           </div>
+                           <div className="text-green-500 mt-2">
+                           {person.data}
+                           </div>
+                      </div>
+                      <div className="whitespace-nowrap border border-1 border-gray-100 m-1 shadow-sm shadow-white rounded-lg px-3 py-4 text-sm  text-gray-100  text-center">
+                        <div>
+                          ساعت
+                        </div>
+                        <div className="text-green-500 mt-2">
+                        {person.time}
+                        </div>
+                      </div>
+                      <div className="whitespace-nowrap border border-1 border-gray-100 m-1 shadow-sm shadow-white rounded-lg px-3 py-4 text-sm  text-gray-100  text-center">
+                        <div>
+                          نام مشتری
+                        </div>
+                        <div className="text-green-500 mt-2">
+                           {person.name}
+                        </div>
+                      </div>
+                      <div className="whitespace-nowrap border border-1 border-gray-100 m-1 shadow-sm shadow-white rounded-lg px-3 py-4 text-sm  text-gray-100  text-center">
+                        <div>
+                           نام ارز
+                        </div>
+                        <div className="text-green-500 mt-2">
+                        {person.currency}
+                        </div>
+                      </div>
+                      <div className="whitespace-nowrap border border-1 border-gray-100 m-1 shadow-sm shadow-white rounded-lg px-3 py-4 text-sm  text-gray-100  text-center">
+                      <div>
+                           نام کیف پول
+                        </div>
+                        <div className="text-green-500 mt-2">
+                      
+                        {person.type}
+                        </div>
+                      </div>
+                      <div className="whitespace-nowrap border border-1 border-gray-100 m-1 shadow-sm shadow-white rounded-lg px-3 py-4 text-sm  text-gray-100  text-center">
+                      <div>
+                            مبلغ
+                        </div>
+                        <div className="text-green-500 mt-2">
+                        {new Intl.NumberFormat('fa-IR').format(person.price)}
+                        </div>
+                      </div>
+                      <div className="whitespace-nowrap border border-1 border-gray-100 m-1 shadow-sm shadow-white rounded-lg px-3 py-4 text-sm  text-gray-100  text-center">
+                      <div>
+                            کد رهگیری
+                        </div>
+                        <div className="text-green-500 mt-2">
+                         {person.code}
+                        </div>
+                      </div>
+                      <div className="whitespace-nowrap border border-1 border-gray-100 m-1 shadow-sm shadow-white rounded-lg px-3 py-4 text-sm  text-gray-100  text-center">
+                      <div>
+                            کارمزد
+                        </div>
+                        <div className="text-green-500 mt-2">
+                        {new Intl.NumberFormat('fa-IR').format(person.Wage)}
+                        </div>
+                      </div>
+                      <div className="whitespace-nowrap border border-1 border-gray-100 m-1 shadow-sm shadow-white rounded-lg px-3 py-4 text-sm  text-gray-100  text-center">
+                      <div>
+                           وضعیت 
+                        </div>
+                        <div className="text-green-500 mt-2">
+                        { person.status }
+                        </div>
+                      </div>
+                    
+                    </div>
+                  ))}
+        </div>
+
     </div>
   );
 }
+

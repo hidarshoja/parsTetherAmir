@@ -1,80 +1,74 @@
-import React, { useState , useEffect } from "react";
+import  { useState , useEffect } from "react";
 import { TbMessages } from "react-icons/tb";
-import { LiaPlusSolid } from "react-icons/lia";
+
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 const people = [
   {
-    id: 1,
-    name: 1012,
+    id: 211,
+    name: "علی شجاع",
     title: "1402/10/12",
     email: "نحوه خرید طلا چگونه است ...",
-    role: "رد شده",
+    role:  "نمایش",
   },
   {
-    id: 2,
-    name: 1013,
+    id: 212,
+    name: "سحر حسینی",
     title: "1402/10/12",
     email: "نحوه فروش طلا چگونه است ...",
-    role: "در انتظار",
+    role:  "نمایش",
   },
   {
-    id: 3,
-    name: 1014,
+    id: 213,
+    name: "فاطمه جعفری",
     title: "1402/10/18",
     email: "نحوه ثبت نام  چگونه است ...",
-    role: "تایید شده",
+    role:  "نمایش",
   },
   {
-    id: 4,
-    name: 1015,
+    id: 214,
+    name: "محمد رسولی",
     title: "1402/10/12",
     email: "نحوه دریافت طلا چگونه است ...",
-    role: "در انتظار",
+    role:  "نمایش",
   },
   {
-    id: 5,
-    name: 1016,
+    id: 215,
+    name: "امیر حسینی",
     title: "1402/10/22",
     email: "نحوه پرداخت طلا چگونه است ...",
-    role: "رد شده",
+    role:  "نمایش",
   },
   {
-    id: 6,
-    name: 1017,
+    id: 612,
+    name: "نیما شاهرخی",
     title: "1402/10/11",
     email: "نحوه مشاهده تیکت  چگونه است ...",
-    role: "تایید شده",
+    role:  "نمایش",
   },
   {
-    id: 7,
-    name: 1018,
+    id: 347,
+    name: "نگار جواهریان",
     title: "1402/10/10",
     email: "نحوه خروج از سایت طلا چگونه است ...",
-    role: "تایید شده",
+    role:  "نمایش",
   },
   {
-    id: 8,
-    name: 1019,
+    id: 348,
+    name: "مینا احمدی",
     title: "1402/10/02",
     email: "نحوه معامله گروهی طلا چگونه است ...",
-    role: "رد شده",
+    role: "نمایش",
   },
 ];
 
 export default function Ticket() {
-  const [showModal, setShowModal] = useState(false);
+  
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
 
   const handleFormSubmit = () => {
     const postData = {
@@ -111,24 +105,14 @@ export default function Ticket() {
           <span className="flex gap-2 items-center">
             <TbMessages className="text-2xl" />
             <h1 className="text-base font-semibold leading-6 text-gray-800">
-              تیکت ها
+               حد اعتباری
             </h1>
           </span>
-          <p className="mt-2 text-sm text-gray-700">
-            تیکت ها و وضعیت تیکت های خود را مشاهده کنید
+        
+        </div>
+        <p className="mt-2 text-sm text-gray-700">
+             حد اعتباری و وضعیت کاربران  را مشاهده کنید
           </p>
-        </div>
-        <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-none">
-          <button
-            type="button"
-            className="flex items-center rounded-md bg-yellow-400 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            <LiaPlusSolid className="text-xl" />
-            <span className="mr-2" onClick={() => handleShowModal()}>
-              تیکت جدید{" "}
-            </span>
-          </button>
-        </div>
       </div>
       <div className="mt-8 flow-root">
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -141,19 +125,25 @@ export default function Ticket() {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-start text-sm font-semibold text-gray-900 sm:pl-6"
                     >
-                      شماره تیکت
+                       نام مشتری
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-start text-sm font-semibold text-gray-900"
                     >
-                      تاریخ
+                      تاریخ عضویت
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-start text-sm font-semibold text-gray-900"
                     >
-                      موضوع
+                      یوز آیدی
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-start text-sm font-semibold text-gray-900"
+                    >
+                      حد اعتباری
                     </th>
                     <th
                       scope="col"
@@ -165,13 +155,13 @@ export default function Ticket() {
                       scope="col"
                       className="px-3 py-3.5 text-start text-sm font-semibold text-gray-900"
                     >
-                      #
+                      ویرایش
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {people.map((person) => (
-                    <tr key={person.email}>
+                    <tr key={person.id}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-start font-medium text-gray-900 sm:pl-6">
                         {person.name}
                       </td>
@@ -179,31 +169,31 @@ export default function Ticket() {
                         {person.title}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person.email}
+                        {person.id}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-100">
                         <span
                           style={{
                             padding: "0.2rem",
                             borderRadius: "0.5rem",
-                            backgroundColor:
-                              person.role === "رد شده"
-                                ? "#EF4444"
-                                : person.role === "در انتظار"
-                                ? "#FBBF24"
-                                : person.role === "تایید شده"
-                                ? "#10B981"
-                                : "#6B7280",
-                            color: "#fff",
+                            backgroundColor: "#10B981",
+                          
                           }}
                         >
                           {person.role}
                         </span>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <Link to="/ticket/chat">
+                        <select name="" id="" className="w-16 rounded-md border border-1 border-gray-400">
+                          <option value="1">فعال</option>
+                          <option value="2">غیرفعال</option>
+                          <option value="3">نمایش</option>
+                        </select>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <Link to="/harvest">
                           <span className="bg-color1 text-color3 px-2 py-1 rounded-lg cursor-pointer">
-                            مشاهده
+                            ویرایش
                           </span>
                         </Link>
                       </td>
@@ -211,65 +201,7 @@ export default function Ticket() {
                   ))}
                 </tbody>
               </table>
-              {showModal && (
-                <div
-                  className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50"
-                  style={{
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  }}
-                >
-                  <div className="relative w-[90%] md:w-[40%] rounded-xl py-5 px-10 min-h-[420px] bg-gray-500 shadow-lg shadow-slate-600">
-                    <p>
-                      {
-                        <span
-                          className="absolute top-3 left-3 text-2xl cursor-pointer"
-                          onClick={handleCloseModal}
-                        >
-                          &times;
-                        </span>
-                      }
-                    </p>
-                    <div className="flex items-center justify-between mt-3">
-                      <h2 className="text-center p-2 text-xl font-semibold text-color2">
-                        تیکت جدید
-                      </h2>
-                    </div>
-                    <div>
-                      <p className="text-right py-3 text-sm text-color1">
-                        عنوان تیکت
-                      </p>
-                      <input
-                        type="text"
-                        placeholder="عنوان تیکت را وارد نمایید ."
-                        className="px-3 py-2 rounded-lg text-sm w-full"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                      />
-                    </div>
-                    <div className="mt-3">
-                      <p className="text-right py-3 text-sm text-color1">
-                        متن تیکت
-                      </p>
-                      <textarea
-                        placeholder="متن تیکت را وارد نمایید ."
-                        className="px-3 py-2 rounded-lg text-sm w-full resize-none text-right"
-                        style={{ direction: "rtl" ,  height: "140px"  }}
-                        value={content}
-                       onChange={(e) => setContent(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="absolute bottom-3 left-10">
-                      <span 
-                      onClick={handleFormSubmit}
-                      className="block text-sm py-1 px-8 bg-color1 text-color3 rounded-xl cursor-pointer">
-                        ارسال
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                // </div>
-              )}
+             
             </div>
           </div>
         </div>
